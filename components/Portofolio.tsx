@@ -6,6 +6,7 @@ import { useScrollSpy } from "@/lib/useScrollSpy";
 import Navbar from "./Navbar";
 import Dock from "./Dock";
 import SectionHeader from "./SectionHeader";
+import Hero from "./hero/Hero";
 
 const sectionIds = sections.map((s) => s.id);
 
@@ -19,10 +20,7 @@ export default function Portfolio() {
       <Navbar active={active} onQuickView={() => setQuickViewOpen(true)} />
 
       <main>
-        {/* Temporary placeholders — replaced one by one in the next steps */}
-        <section id="top" className="mx-auto flex min-h-[70vh] max-w-6xl items-center px-4 md:px-8">
-          <p className="label text-sm text-muted-soft">Hero goes here</p>
-        </section>
+        <Hero />
 
         {sections.map((s, i) => (
           <section

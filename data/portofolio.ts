@@ -76,13 +76,14 @@ export const profile = {
   fullName: "Nadia Indriani Sumardi",
   roles: "Aspiring Data Scientist · Data Analyst · AI Engineer",
   intro:
-    "Informatics student at Universitas Hasanuddin building models that listen, read and see — from speech and EEG signals to tweets, DNA and road signs.",
+    "I build models that listen, read and see — and I care just as much about whether their numbers can be trusted.",
   location: "Makassar, Indonesia",
   email: "nadiaindriani1493@gmail.com",
   linkedin: "https://www.linkedin.com/in/nadia-indriani-sumardi/",
   github: "https://github.com/nanadiaa14",
   cvUrl: "/cv.pdf",
   photo: "", // e.g. "/images/profile.jpg"
+  coverImage: "", // your own album cover, e.g. "/images/album-cover.jpg" (square, 1200×1200)
 };
 
 /* ---------- Navigation ---------- */
