@@ -21,6 +21,9 @@
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-work-sans), system-ui, sans-serif;
   --font-mono: var(--font-space-mono), ui-monospace, monospace;
+
+  --animate-disc: spin 1.6s linear infinite;
+  --animate-disc-slow: spin 12s linear infinite;
 }
 
 @utility display {
@@ -38,6 +41,48 @@
   font-family: var(--font-mono);
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+/* Special Effects */
+@utility holo {
+  background: conic-gradient(from 20deg, #e2e8f0, #fbcfe8, #ddd6fe, #bae6fd, #bbf7d0, #fef08a, #fbcfe8, #e2e8f0, #cbd5e1, #e2e8f0);
+}
+
+@utility metal {
+  background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 22%, #f1f5f9 40%, #94a3b8 62%, #e2e8f0 80%, #cbd5e1 100%);
+}
+
+@utility foil {
+  background: linear-gradient(115deg, #fbcfe8 0%, #e0e7ff 18%, #bae6fd 32%, #f5f3ff 46%, #fde68a 58%, #fbcfe8 72%, #cbd5e1 86%, #fbcfe8 100%);
+  background-size: 300% 100%;
+}
+
+@utility grooves {
+  background: repeating-radial-gradient(circle, rgb(255 255 255 / 0) 0 3px, rgb(255 255 255 / 0.28) 3px 4px);
+}
+
+@utility chrome-text {
+  background: linear-gradient(180deg, #231920 0%, #5c4a55 40%, #e2e8f0 52%, #6b5563 60%, #231920 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility chrome-pink-text {
+  background: linear-gradient(180deg, #9d174d 0%, #db2777 42%, #fbcfe8 52%, #ec4899 60%, #9d174d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility hairline {
+  height: 2px;
+  border: 0;
+  background: linear-gradient(90deg, #94a3b8, #f8fafc, #ec4899, #f8fafc, #94a3b8);
+}
+
+@utility photo-placeholder {
+  background: repeating-linear-gradient(135deg, #fceef3 0 12px, #fbcfe8 12px 24px);
 }
 
 @layer base {
@@ -59,6 +104,10 @@
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
+    }
+    .animate-disc,
+    .animate-disc-slow {
+      animation: none;
     }
   }
 }
