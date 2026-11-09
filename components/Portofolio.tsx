@@ -8,14 +8,16 @@ import Dock from "./Dock";
 import SectionHeader from "./SectionHeader";
 import Hero from "./hero/Hero";
 import WorkSection from "./work/WorkSection";
+import ProjectsSection from "./projects/ProjectSection";
 
 const sectionIds = sections.map((s) => s.id);
-const finished = ["work"]; // sections that already have their real component
+const finished = ["work", "projects"]; // sections that already have their real component
 
 // The whole page. It holds the state that several sections share.
 export default function Portfolio() {
   const { progress, active } = useScrollSpy(sectionIds);
   const [quickViewOpen, setQuickViewOpen] = useState(false);
+  const [openProject, setOpenProject] = useState<number | null>(null); // which project popup is open
 
   return (
     <div className="min-h-screen overflow-x-clip pb-24">
@@ -24,6 +26,11 @@ export default function Portfolio() {
       <main>
         <Hero />
         <WorkSection />
+        <ProjectsSection
+          openIndex={openProject}
+          onOpen={setOpenProject}
+          onClose={() => setOpenProject(null)}
+        />
 
         {/* Temporary placeholders — replaced one by one in the next steps */}
         {sections

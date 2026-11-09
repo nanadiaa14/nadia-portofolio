@@ -83,7 +83,7 @@ export const profile = {
   github: "https://github.com/nanadiaa14",
   cvUrl: "/cv.pdf",
   photo: "", // e.g. "/images/profile.jpg"
-  coverImage: "", // your own album cover, e.g. "/images/album-cover.jpg" (square, 1200×1200)
+  coverImage: "/images/album-cover.png",
 };
 
 /* ---------- Navigation ---------- */
