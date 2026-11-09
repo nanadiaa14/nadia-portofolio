@@ -290,9 +290,6 @@ export const committees: Committee[] = [
 export const achievements: Achievement[] = [
   { tier: "PLATINUM", big: "1st Place", title: "Business Idea Competition: Sustainable Innovation with AI", issuer: "Telkom Regional V, Makassar", date: "Jan 2026", detail: "First-place winner of the team poster competition.", shape: "star" },
   { tier: "GOLD", big: "Awardee", title: "Beasiswa Bakti BCA", issuer: "Bakti BCA", date: "Jan – Dec 2025", detail: "Scholarship awardee; project secretary in a community-empowerment programme — notes, reports and letters.", shape: "circle" },
-  { tier: "GOLD", big: "IPK 3.95", title: "Informatics, Faculty of Engineering", issuer: "Universitas Hasanuddin", date: "2023 – now", detail: "Cumulative GPA in the Bachelor programme, Department of Informatics.", shape: "circle" },
-  { tier: "SILVER", big: "C2 · 73/100", title: "EF SET English Certificate", issuer: "EF Education First", date: "Oct 2026", detail: "EF Standard English Test — CEFR C2 Proficient.", shape: "rect" },
-  { tier: "SILVER", big: "EPT 530", title: "English Proficiency Test", issuer: "Universitas Hasanuddin", date: "Dec 2023", detail: "English Proficiency Test score of 530.", shape: "rect" },
 ];
 
 /* ---------- About ---------- */
