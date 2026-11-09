@@ -11,9 +11,10 @@ import WorkSection from "./work/WorkSection";
 import ProjectsSection from "./projects/ProjectSection";
 import OrganizationsSection from "./organization/OrganizationSection";
 import AchievementsSection from "./achievement/AchievementSection";
+import AboutSection from "./about/AboutSection";
 
 const sectionIds = sections.map((s) => s.id);
-const finished = ["work", "projects", "organizations", "achievements"]; // sections that already have their real component
+const finished = ["work", "projects", "organizations", "achievements", "about"]; // sections that already have their real component
 
 // The whole page. It holds the state that several sections share.
 export default function Portfolio() {
@@ -35,6 +36,7 @@ export default function Portfolio() {
         />
         <OrganizationsSection />
         <AchievementsSection />
+        <AboutSection onOpenProject={setOpenProject} />
 
         {/* Temporary placeholders — replaced one by one in the next steps */}
         {sections
