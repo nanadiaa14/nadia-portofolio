@@ -5,16 +5,15 @@ import { sections } from "@/data/portofolio";
 import { useScrollSpy } from "@/lib/useScrollSpy";
 import Navbar from "./Navbar";
 import Dock from "./Dock";
-import SectionHeader from "./SectionHeader";
 import Hero from "./hero/Hero";
 import WorkSection from "./work/WorkSection";
 import ProjectsSection from "./projects/ProjectSection";
-import OrganizationsSection from "./organization/OrganizationSection";
-import AchievementsSection from "./achievement/AchievementSection";
+import OrganizationsSection from "./organizations/OrganizationSection";
+import AchievementsSection from "./achievements/AchievementSection";
 import AboutSection from "./about/AboutSection";
+import ContactFooter from "./contact/ContactFooter";
 
 const sectionIds = sections.map((s) => s.id);
-const finished = ["work", "projects", "organizations", "achievements", "about"]; // sections that already have their real component
 
 // The whole page. It holds the state that several sections share.
 export default function Portfolio() {
@@ -23,7 +22,7 @@ export default function Portfolio() {
   const [openProject, setOpenProject] = useState<number | null>(null); // which project popup is open
 
   return (
-    <div className="min-h-screen overflow-x-clip pb-24">
+    <div className="min-h-screen overflow-x-clip">
       <Navbar active={active} onQuickView={() => setQuickViewOpen(true)} />
 
       <main>
@@ -37,22 +36,9 @@ export default function Portfolio() {
         <OrganizationsSection />
         <AchievementsSection />
         <AboutSection onOpenProject={setOpenProject} />
-
-        {/* Temporary placeholders — replaced one by one in the next steps */}
-        {sections
-          .filter((s) => !finished.includes(s.id))
-          .map((s) => {
-            const dark = s.id === "projects" || s.id === "contact";
-            return (
-              <section key={s.id} id={s.id} className={dark ? "bg-night py-24" : "py-24"}>
-                <div className="mx-auto max-w-6xl px-4 md:px-8">
-                  <SectionHeader dark={dark} title={s.title} kicker={`${s.no} · coming soon`} />
-                  <div className="h-[50vh] rounded-2xl border border-dashed border-steel/50" />
-                </div>
-              </section>
-            );
-          })}
       </main>
+
+      <ContactFooter />
 
       <Dock active={active} progress={progress} onQuickView={() => setQuickViewOpen(true)} />
 

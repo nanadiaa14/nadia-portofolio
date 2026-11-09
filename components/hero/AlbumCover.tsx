@@ -55,12 +55,11 @@ export default function AlbumCover() {
             <div className="holo absolute -left-10 top-[200px] h-6 w-[560px] -rotate-[18deg] opacity-85" />
 
             <div className="absolute inset-x-6 top-[22px] flex justify-between">
-              <span className="label text-[10px]">ND · 2026</span>
+              <span className="label text-[10px]">Side A</span>
               <span className="label text-[10px]">Data · AI</span>
             </div>
-            <p className="display-italic absolute left-6 top-[50px] text-[56px] font-medium leading-[0.9]">
-              Signals
-              <br />& Melodies
+            <p className="display-italic absolute left-6 top-[50px] text-[72px] font-medium leading-[0.9]">
+              {profile.firstName}
             </p>
             <p className="absolute left-[26px] top-[172px] text-[11px] font-semibold tracking-[0.24em]">
               {profile.fullName.toUpperCase()}

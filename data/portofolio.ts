@@ -81,7 +81,7 @@ export const profile = {
   email: "nadiaindriani1493@gmail.com",
   linkedin: "https://www.linkedin.com/in/nadia-indriani-sumardi/",
   github: "https://github.com/nanadiaa14",
-  cvUrl: "/cv.pdf",
+  cvUrl: "/CV_Nadia Indriani Sumardi_October 2026.pdf",
   photo: "", // e.g. "/images/profile.jpg"
   coverImage: "/images/album-cover.png",
 };
