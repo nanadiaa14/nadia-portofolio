@@ -55,7 +55,7 @@ export default function Dock({ active, progress, onQuickView }: Props) {
         <DockButton label="Next section" onClick={() => scrollToSection(position + 1)}>
           <path d="M16 6h2v12h-2zM4 6v12l10-6z" />
         </DockButton>
-        <DockButton label="Quick view" onClick={onQuickView} className="hidden sm:inline-flex">
+        <DockButton label="Quick view" onClick={onQuickView}>
           <path d="M5 4h14v16H5zM8 9h8v1.6H8zM8 13h8v1.6H8zM8 17h5v1.6H8z" fillRule="evenodd" />
         </DockButton>
       </div>

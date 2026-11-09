@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { sections } from "@/data/portofolio";
 import { useScrollSpy } from "@/lib/useScrollSpy";
 import Navbar from "./Navbar";
@@ -12,6 +12,7 @@ import OrganizationsSection from "./organizations/OrganizationSection";
 import AchievementsSection from "./achievements/AchievementSection";
 import AboutSection from "./about/AboutSection";
 import ContactFooter from "./contact/ContactFooter";
+import QuickView from "./QuickView";
 
 const sectionIds = sections.map((s) => s.id);
 
@@ -20,6 +21,7 @@ export default function Portfolio() {
   const { progress, active } = useScrollSpy(sectionIds);
   const [quickViewOpen, setQuickViewOpen] = useState(false);
   const [openProject, setOpenProject] = useState<number | null>(null); // which project popup is open
+  const closeQuickView = useCallback(() => setQuickViewOpen(false), []);
 
   return (
     <div className="min-h-screen overflow-x-clip">
@@ -42,16 +44,7 @@ export default function Portfolio() {
 
       <Dock active={active} progress={progress} onQuickView={() => setQuickViewOpen(true)} />
 
-      {quickViewOpen && (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-white">
-          <button
-            onClick={() => setQuickViewOpen(false)}
-            className="rounded-full bg-ink px-6 py-3 font-semibold text-white"
-          >
-            Quick view goes here — close ✕
-          </button>
-        </div>
-      )}
+      <QuickView open={quickViewOpen} onClose={closeQuickView} />
     </div>
   );
 }
