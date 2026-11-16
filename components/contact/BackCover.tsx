@@ -24,15 +24,15 @@ export default function BackCover() {
   const [scan, setScan] = useState<ScanState>("idle");
 
   return (
-    <div className="metal relative rounded-lg p-6 text-ink shadow-[0_40px_70px_-30px_rgba(0,0,0,0.8),inset_0_0_0_1px_rgba(255,255,255,0.6)] md:p-[30px]">
+    <div className="metal relative rounded-lg p-5 text-ink shadow-[0_40px_70px_-30px_rgba(0,0,0,0.8),inset_0_0_0_1px_rgba(255,255,255,0.6)] md:p-[30px]">
       <div className="mb-3.5 flex justify-between gap-3">
         <span className="label text-[10px]">Back cover</span>
         <span className="label text-[10px]">{profile.location}</span>
       </div>
 
-      <p className="display-italic mb-3 text-[30px] leading-tight">{profile.fullName}</p>
+      <p className="display-italic mb-3 text-[24px] leading-tight sm:text-[30px]">{profile.fullName}</p>
 
-      <ol className="mb-[18px] flex flex-col gap-1">
+      <ol className="mb-[18px] flex flex-col gap-1 max-md:hidden">
         {sections.map((s) => (
           <li key={s.id}>
             <a href={`#${s.id}`} className="flex gap-2.5 rounded text-sm hover:text-rose">

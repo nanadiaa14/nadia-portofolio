@@ -11,11 +11,11 @@ export default function ContactFooter() {
   const year = useCurrentYear();
 
   return (
-    <footer id="contact" className="mt-16 bg-night text-white">
-      <div className="mx-auto max-w-6xl px-4 pb-32 pt-24 md:px-8">
+    <footer id="contact" className="mt-6 bg-night text-white md:mt-16">
+      <div className="mx-auto max-w-6xl px-4 pb-32 pt-16 md:px-8 md:pt-24">
         <hr className="hairline" />
 
-        <div className="mt-9 grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)]">
+        <div className="mt-9 grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)] lg:gap-14">
           <div className="flex flex-col gap-[22px]">
             <p className="label text-[11px] text-pink-soft">06 · Contact</p>
             <h2 className="display text-[clamp(56px,7.5vw,110px)] leading-[0.9] tracking-[-0.03em]">
@@ -46,7 +46,7 @@ export default function ContactFooter() {
           <BackCover />
         </div>
 
-        <div className="mt-[72px] flex flex-wrap justify-between gap-3 border-t border-[#45343f] pt-[18px]">
+        <div className="mt-12 flex flex-wrap justify-between gap-3 border-t border-[#45343f] pt-[18px] md:mt-[72px]">
           <span className="label text-[10px] text-silver-deep">
             © {year} {profile.fullName}
           </span>

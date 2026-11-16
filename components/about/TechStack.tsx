@@ -23,27 +23,28 @@ export default function TechStack({ onOpenProject }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-baseline justify-between gap-2.5">
-        <h3 className="display text-[34px]">
+        <h3 className="display text-[30px] lg:text-[34px]">
           Tech <em className="display-italic text-rose">stack</em>
         </h3>
-        <span className="label text-[10px] text-muted-soft">Click a skill to see where I used it</span>
+        <span className="label text-[10px] text-muted-soft">Tap a skill to see where I used it</span>
       </div>
 
-      <div className="grid grid-cols-1 gap-x-[18px] sm:grid-cols-2">
+      {/* phones and tablets: a cloud of chips · laptops: two columns with dotted leaders */}
+      <div className="flex flex-wrap gap-2 lg:grid lg:grid-cols-2 lg:gap-x-[18px] lg:gap-y-0">
         {skills.map((s, i) => {
           const on = i === selected;
           return (
             <button
-              key={s.name}
-              onClick={() => setSelected(i)}
-              aria-pressed={on}
-              className={`flex min-h-11 w-full items-baseline gap-2.5 rounded-lg px-3 py-2 text-left transition-colors ${
-                on ? "bg-ink text-white" : "hover:bg-blush"
-              }`}
+                key={s.name}
+                onClick={() => setSelected(i)}
+                aria-pressed={on}
+                className={`flex min-h-10 items-baseline gap-2.5 rounded-full border px-3.5 py-2 text-left transition-colors lg:min-h-11 lg:w-full lg:rounded-lg lg:border-0 lg:px-3 ${
+                on ? "border-ink bg-ink text-white" : "border-ink/15 hover:bg-blush"
+                }`}
             >
-              <span className="text-sm font-semibold">{s.name}</span>
-              <span className="min-w-4 flex-1 -translate-y-1 border-b border-dotted border-current opacity-40" />
-              <span className="display-italic max-w-[55%] text-right text-sm">{s.use}</span>
+                <span className="text-[13px] font-semibold lg:text-sm">{s.name}</span>
+                <span className="min-w-4 flex-1 -translate-y-1 border-b border-dotted border-current opacity-40 max-lg:hidden" />
+                <span className="display-italic max-w-[55%] text-right text-sm max-lg:hidden">{s.use}</span>
             </button>
           );
         })}

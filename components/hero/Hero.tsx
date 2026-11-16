@@ -6,9 +6,9 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="mx-auto grid max-w-6xl items-center gap-6 px-4 pb-12 pt-14 md:px-8 lg:grid-cols-[1fr_1.1fr]"
+      className="mx-auto grid max-w-6xl items-center gap-4 px-4 pb-12 pt-8 md:px-8 md:pt-14 lg:grid-cols-[1fr_1.1fr] lg:gap-6"
     >
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 max-lg:contents">
         <p className="label text-[11px] text-muted-soft">Portfolio · 2026 · {profile.location}</p>
 
         <h1 className="display text-[clamp(60px,8.4vw,128px)] font-semibold leading-[0.88] tracking-[-0.035em]">
@@ -16,10 +16,10 @@ export default function Hero() {
           <span className="display-italic chrome-pink-text block font-medium">{profile.lastName}</span>
         </h1>
 
-        <p className="label text-xs leading-relaxed text-muted">{profile.roles}</p>
-        <p className="max-w-[38ch] text-[19px] leading-relaxed text-[#3b2d35]">{profile.intro}</p>
+        <p className="label text-xs leading-relaxed text-muted max-lg:order-2">{profile.roles}</p>
+        <p className="max-w-[38ch] text-[19px] leading-relaxed text-[#3b2d35] max-lg:order-2">{profile.intro}</p>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 max-lg:order-2">
           <a
             href="#projects"
             className="inline-flex min-h-[52px] items-center rounded-full bg-ink px-7 font-semibold text-white shadow-lg transition-colors hover:bg-rose"
@@ -36,8 +36,8 @@ export default function Hero() {
       </div>
 
       {/* The stage is drawn at a fixed size and scaled down on phones */}
-      <div className="relative h-[330px] md:h-[520px]">
-        <div className="absolute left-1/2 top-5 h-[480px] w-[600px] -translate-x-1/2 origin-top scale-[0.6] md:scale-100">
+      <div className="relative h-[270px] max-lg:order-1 sm:h-[330px] md:h-[520px]">
+        <div className="absolute left-1/2 top-2 h-[480px] w-[600px] -translate-x-1/2 origin-top scale-[0.52] sm:top-5 sm:scale-[0.6] md:scale-100">
           <div className="absolute bottom-0 left-20 right-0 h-20 rounded-full bg-[radial-gradient(closest-side,rgba(236,72,153,0.3),rgba(186,230,253,0.25),transparent)] blur-lg" />
           <SpinningDisc />
           <AlbumCover />

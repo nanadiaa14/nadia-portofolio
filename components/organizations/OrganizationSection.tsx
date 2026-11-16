@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { organizations } from "@/data/portofolio";
 import SectionHeader from "@/components/SectionHeader";
+import SwipeRow from "@/components/ui/SwipeRow";
 import Photocard from "./Photocard";
 import CommitteeList from "./CommitteeList";
 
@@ -20,14 +21,14 @@ export default function OrganizationsSection() {
   const flipAll = () => setFlipped(organizations.map(() => !allOpen));
 
   return (
-    <section id="organizations" className="mx-auto max-w-6xl px-4 py-24 md:px-8">
+    <section id="organizations" className="mx-auto max-w-6xl px-4 py-14 md:px-8 md:py-24">
       <SectionHeader
         title={
           <>
             Organizational <em className="display-italic text-rose">Experience</em>
           </>
         }
-        kicker={`03 · ${organizations.length} organizations · click a card to flip it`}
+        kicker={`03 · ${organizations.length} organizations · tap a card to flip it`}
       />
 
       <div className="mb-7 flex flex-wrap items-center justify-between gap-3">
@@ -65,18 +66,28 @@ export default function OrganizationsSection() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 justify-items-center gap-9 md:grid-cols-2 lg:grid-cols-3">
-        {organizations.map((org, i) => (
-          <Photocard
-            key={org.id}
-            org={org}
-            number={numberOf(i)}
-            total={total}
-            flipped={flipped[i]}
-            onFlip={() => flipOne(i)}
-          />
-        ))}
-      </div>
+      {/* Phones: a binder page you swipe through. Laptops: three cards side by side. */}
+      <SwipeRow
+        count={organizations.length}
+        label="Organization photocards"
+        itemWidth="270px"
+        className="lg:grid lg:grid-cols-3 lg:justify-items-center lg:gap-9"
+        renderItem={(i, active) => (
+          <div
+            className={`transition duration-500 ${
+              i === active ? "" : `max-lg:scale-[0.86] max-lg:opacity-60 ${i < active ? "max-lg:-rotate-6" : "max-lg:rotate-6"}`
+            }`}
+          >
+            <Photocard
+              org={organizations[i]}
+              number={numberOf(i)}
+              total={total}
+              flipped={flipped[i]}
+              onFlip={() => flipOne(i)}
+            />
+          </div>
+        )}
+      />
 
       <CommitteeList />
     </section>
