@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { profile, type Project } from "@/data/portofolio";
+import Image from "next/image";
+import type { Project } from "@/data/portofolio";
 import ProjectCover from "./ProjectCover";
 
 type Props = {
@@ -39,7 +40,7 @@ export default function ProjectDetails({ project, number, onPrev, onNext }: Prop
     setPlaying(true);
   };
 
-  const labelIsDark = project.cover.label === "#231920" || project.cover.label === "#BE185D";
+  const labelIsDark = ["#231920", "#BE185D"].includes(project.cover.label);
 
   return (
     <>
@@ -55,7 +56,7 @@ export default function ProjectDetails({ project, number, onPrev, onNext }: Prop
 
       <div className="grid gap-10 lg:grid-cols-[minmax(0,400px)_minmax(0,1fr)]">
         {/* case + disc */}
-        <div className="relative h-[300px] origin-top-left max-sm:scale-[0.85] sm:h-[380px]">
+        <div className="relative h-[300px] origin-top-left max-sm:scale-[0.85] sm:h-[380px] lg:sticky lg:top-6 lg:self-start">
           <motion.div
             className="absolute left-24 top-8 h-[300px] w-[300px]"
             initial={{ x: "-55%", rotate: -160 }}
@@ -85,17 +86,23 @@ export default function ProjectDetails({ project, number, onPrev, onNext }: Prop
 
         {/* booklet */}
         <div className="flex min-w-0 flex-col gap-3.5">
-          <p className="label text-[11px] text-rose">{project.date}</p>
+          <p className="label text-[11px] text-rose">
+            {project.date} · {project.team}
+          </p>
           <h3 className="display text-[clamp(30px,3.6vw,44px)] leading-[1.04]">{project.title}</h3>
 
-          <div className="flex flex-wrap items-baseline gap-3 border-y border-ink py-3">
-            <span className="display chrome-pink-text text-5xl font-bold leading-none">{project.headline}</span>
-            <span className="max-w-[30ch] text-sm text-muted">{project.headlineNote}</span>
+          <div className="grid gap-4 border-t border-ink pt-4 sm:grid-cols-2">
+            <Section title="Why">
+              <p className="text-[15px] leading-relaxed text-[#3b2d35]">{project.why}</p>
+            </Section>
+            <Section title="Goal">
+              <p className="text-[15px] leading-relaxed text-[#3b2d35]">{project.goal}</p>
+            </Section>
           </div>
 
-          <div className="mt-1 flex items-center justify-between gap-3">
+          <div className="mt-2 flex items-center justify-between gap-3">
             <p className="label text-[10px] text-muted-soft">
-              Process · step {step + 1} of {total}
+              Method · step {step + 1} of {total}
             </p>
             <div className="flex gap-2">
               <RoundButton label="Replay the steps" onClick={replay}>
@@ -137,6 +144,38 @@ export default function ProjectDetails({ project, number, onPrev, onNext }: Prop
             />
           </div>
 
+          <Section title="Result">
+            <div className="flex flex-wrap items-baseline gap-3 border-y border-ink py-3">
+              <span className="display chrome-pink-text text-5xl font-bold leading-none">{project.headline}</span>
+              <span className="max-w-[34ch] text-sm text-muted">{project.headlineNote}</span>
+            </div>
+            <p className="text-[15px] leading-relaxed text-[#3b2d35]">{project.result}</p>
+            {project.figure && (
+              <figure className="flex flex-col gap-2">
+                <Image
+                  src={project.figure.src}
+                  alt={project.figure.caption}
+                  width={project.figure.width}
+                  height={project.figure.height}
+                  sizes="(min-width: 1024px) 560px, 92vw"
+                  className="h-auto w-full rounded-lg border border-ink/10"
+                />
+                <figcaption className="text-xs leading-relaxed text-muted">{project.figure.caption}</figcaption>
+              </figure>
+            )}
+          </Section>
+
+          <Section title="My contribution">
+            <ul className="flex flex-col gap-1.5">
+              {project.contribution.map((c) => (
+                <li key={c} className="flex gap-2.5 text-[15px] leading-relaxed text-[#3b2d35]">
+                  <span aria-hidden="true" className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-pink" />
+                  {c}
+                </li>
+              ))}
+            </ul>
+          </Section>
+
           <p className="label mt-1 text-[10px] text-muted-soft">Tools</p>
           <div className="flex flex-wrap gap-2">
             {project.tools.map((tool) => (
@@ -148,7 +187,7 @@ export default function ProjectDetails({ project, number, onPrev, onNext }: Prop
 
           <div className="mt-1 flex flex-wrap gap-2.5">
             <a
-              href={project.codeUrl ?? profile.github}
+              href={project.codeUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex min-h-11 items-center rounded-full border border-ink px-5 text-sm font-medium transition-colors hover:bg-pink-pale"
@@ -169,6 +208,15 @@ export default function ProjectDetails({ project, number, onPrev, onNext }: Prop
         </div>
       </div>
     </>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="mt-2 flex flex-col gap-2.5">
+      <p className="label text-[10px] text-muted-soft">{title}</p>
+      {children}
+    </section>
   );
 }
 

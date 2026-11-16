@@ -3,8 +3,6 @@
 
 /* ---------- Types ---------- */
 
-export type WaveKind = "voice" | "text" | "eeg" | "dna" | "sign" | "map";
-
 export type Work = {
   id: string;
   kind: string;
@@ -24,14 +22,20 @@ export type Project = {
   id: string;
   genre: string;
   title: string;
-  course: string;
+  course: string; // course or competition
   date: string;
-  headline: string;
+  team: string; // "Solo project", "Team of 3", ...
+  why: string; // the problem / motivation
+  goal: string; // what the project set out to do
+  steps: { text: string; tag: string }[]; // method, shown step by step
+  headline: string; // the key result in a few characters
   headlineNote: string;
-  steps: { text: string; tag: string }[];
+  result: string; // what came out of it, including limits
+  contribution: string[]; // what I did
   tools: string[];
-  cover: { bg: string; ink: string; label: string; wave: WaveKind };
-  codeUrl?: string;
+  cover: { image: string; label: string }; // image = preview in /public, label = colour of the disc centre
+  figure?: { src: string; width: number; height: number; caption: string };
+  codeUrl: string;
   caseStudyUrl?: string;
 };
 
@@ -138,105 +142,222 @@ export const work: Work[] = [
 
 export const projects: Project[] = [
   {
-    id: "ser",
-    genre: "Audio",
-    title: "Speech Emotion Recognition",
-    course: "Special Topics in AI",
-    date: "Apr 2026",
-    headline: "> 98%",
-    headlineNote: "accuracy for both models — then I checked why.",
+    id: "dehaze",
+    genre: "Vision",
+    title: "Single Image Dehazing with Dark Channel Prior",
+    course: "Computer Vision",
+    date: "Jun 2026",
+    team: "Solo project",
+    why: "Haze scatters light before it reaches the camera, so photos lose contrast, colours fade toward grey and details disappear.",
+    goal: "Restore a hazy photo with the Dark Channel Prior (DCP), measure how each parameter changes the result, and find where the method stops working.",
     steps: [
-      { text: "Extract MFCC, Chroma and Mel-spectrogram features from the TESS dataset", tag: "3 features" },
-      { text: "Train an SVM baseline and a CNN-LSTM", tag: "2 models" },
-      { text: "Both models score above 98% accuracy", tag: "> 98%" },
-      { text: "Flag speaker-identity leakage as a validity concern", tag: "caveat" },
+      { text: "Try DCP first on a cloudy Sentinel-2 satellite image", tag: "satellite" },
+      { text: "Switch to an outdoor photo after the satellite result came out too dark", tag: "outdoor" },
+      { text: "Build the pipeline in MATLAB: dark channel, airlight, guided-filter transmission map, recovery", tag: "DCP" },
+      { text: "Test patch size, ω, t_min and filter radius one at a time", tag: "4 parameters" },
     ],
-    tools: ["Python", "TensorFlow", "Keras", "librosa", "scikit-learn", "SHAP"],
-    cover: { bg: "#EC4899", ink: "#231920", label: "#231920", wave: "voice" },
-  },
-  {
-    id: "hate",
-    genre: "NLP",
-    title: "Hate Speech Classification on Indonesian Twitter",
-    course: "Natural Language Processing",
-    date: "May – Jun 2026",
-    headline: "7 labels",
-    headlineNote: "individual, group, religion, race, physical, gender, other.",
-    steps: [
-      { text: "Frame it as multi-label classification across 7 categories", tag: "7 labels" },
-      { text: "Baseline: SVM with TF-IDF", tag: "baseline" },
-      { text: "Compare Attention-BiLSTM, TextGCN and IndoBERT", tag: "3 models" },
-      { text: "Measure whether complex architectures beat the baseline", tag: "[result]" },
-    ],
-    tools: ["Python", "PyTorch", "PyTorch Geometric", "HuggingFace", "Sastrawi", "scikit-learn"],
-    cover: { bg: "#FDF8F9", ink: "#BE185D", label: "#EC4899", wave: "text" },
+    headline: "3.19 → 2.80",
+    headlineNote: "NIQE score of the photo after tuning (lower means more natural).",
+    result:
+      "The tuned setting (patch 10, ω 1.0, radius 20) gave the most natural result, and entropy rose from 7.30 to 7.35. On the satellite image DCP failed: thick clouds pushed the estimated airlight to pure white, so the land turned black and entropy dropped from 6.58 to 5.86.",
+    contribution: ["Solo project: implementation, experiments and write-up"],
+    tools: ["MATLAB", "Image Processing Toolbox"],
+    cover: { image: "/images/projects/dehazing.jpg", label: "#94A3B8" },
+    figure: {
+      src: "/images/projects/dehazing-pipeline.jpg",
+      width: 1476,
+      height: 640,
+      caption: "Hazy input → dark channel → refined transmission map → dehazed result.",
+    },
+    codeUrl: "https://github.com/nanadiaa14/image-dehazing-dcp",
   },
   {
     id: "eeg",
     genre: "Signal",
-    title: "EEG-Based Attention Span Analysis",
-    course: "Special Topics in AI",
-    date: "May – Jun 2026",
-    headline: "4 of 6",
-    headlineNote: "subjects showed clear right-hemisphere dominance.",
+    title: "EEG Cognitive Load While Watching a Video",
+    course: "Special Topics in Artificial Intelligence",
+    date: "May 2026",
+    team: "Team of 2",
+    why: "In the literature, a higher Theta/Alpha ratio over the forehead is linked to higher cognitive load. We wanted to see how it changes while people watch a motivational video.",
+    goal: "Compare the ratio between the left (AF7) and right (AF8) sensors, between people, and against what was on screen.",
     steps: [
-      { text: "Record EEG from prefrontal channels AF7 & AF8 during video-watching", tag: "6 subjects" },
-      { text: "Compute the Theta/Alpha power ratio as a Cognitive Load Index", tag: "θ / α" },
-      { text: "Test left–right hemisphere differences statistically", tag: "stats" },
-      { text: "Find clear right-hemisphere dominance", tag: "4 of 6" },
+      { text: "Record 6 people for about 3 minutes each with a Muse headband", tag: "6 subjects" },
+      { text: "Keep the band-power columns, fill gaps and shift values above zero", tag: "cleaning" },
+      { text: "Average into 1-second windows and compute Theta / Alpha", tag: "θ / α" },
+      { text: "Compare left vs right (Wilcoxon) and find moments everyone moved together", tag: "statistics" },
     ],
-    tools: ["Python", "NumPy", "pandas", "matplotlib"],
-    cover: { bg: "#CBD5E1", ink: "#231920", label: "#EC4899", wave: "eeg" },
+    headline: "5 of 6",
+    headlineNote: "people had a higher Theta/Alpha ratio on the right side (AF8).",
+    result:
+      "The difference was significant for 4 people on their own, but across the group the trend is not yet significant (p = 0.06). Moments when all six rose together tended to fall on social or emotional scenes — a descriptive finding from only six people.",
+    contribution: ["Observed the EEG recording sessions", "Wrote the analysis code and the report together with my teammate"],
+    tools: ["Python", "pandas", "NumPy", "SciPy", "matplotlib"],
+    cover: { image: "/images/projects/eeg-pattern.jpg", label: "#F9A8D4" },
+    figure: {
+      src: "/images/projects/eeg-moments.jpg",
+      width: 1600,
+      height: 677,
+      caption: "Moments when all six people's ratios rose (green) or fell (red) together.",
+    },
+    codeUrl: "https://github.com/nanadiaa14/eeg-attention-theta-alpha-muse",
+    caseStudyUrl: "https://github.com/nanadiaa14/eeg-attention-theta-alpha-muse/blob/main/report/Laporan%20EEG.pdf",
   },
   {
-    id: "apoe",
-    genre: "Bio",
-    title: "APOE ε3 vs ε4 DNA Sequence Analysis",
-    course: "Biomedical Computing",
+    id: "datasci",
+    genre: "Data",
+    title: "Four Data Science Case Studies with CRISP-DM",
+    course: "Data Science",
+    date: "Apr – May 2026",
+    team: "Solo project",
+    why: "The course asked us to go through the full CRISP-DM process — from the business question to evaluation — on different kinds of problems.",
+    goal: "Apply clustering, classification, regression and association rules to four Kaggle datasets, writing two of the algorithms from scratch.",
+    steps: [
+      { text: "Group Korean dramas by popularity with K-Medoids", tag: "clustering" },
+      { text: "Predict whether a Chicago crime ends in arrest with a tuned SVM", tag: "classification" },
+      { text: "Predict cognitive scores with a Random Forest written from scratch", tag: "regression" },
+      { text: "Find items bought together at a bakery with ECLAT, also from scratch", tag: "association" },
+    ],
+    headline: "R² 0.91",
+    headlineNote: "from my from-scratch Random Forest on 16,000 test rows.",
+    result:
+      "K-Medoids found 3 clusters (silhouette 0.59). The SVM reached 0.69 accuracy and 0.70 ROC-AUC but still misses many arrests. ECLAT found 10 rules; the strongest was Toast → Coffee (lift 1.47).",
+    contribution: ["Solo project: all four analyses, from data preparation to evaluation"],
+    tools: ["Python", "pandas", "NumPy", "scikit-learn", "pyclustering", "Kaggle"],
+    cover: { image: "/images/projects/ds-clusters.jpg", label: "#86EFAC" },
+    figure: {
+      src: "/images/projects/ds-four-methods.jpg",
+      width: 1600,
+      height: 1200,
+      caption: "Clusters (PCA), SVM ROC curve, Random Forest predictions and the bakery rules.",
+    },
+    codeUrl: "https://github.com/nanadiaa14/data-science-crisp-dm",
+  },
+  {
+    id: "ser",
+    genre: "Audio",
+    title: "Speech Emotion Recognition",
+    course: "Special Topics in Artificial Intelligence",
+    date: "Apr 2026",
+    team: "Team of 3",
+    why: "Emotion in speech can be recognised with a classic classifier on audio features or with a deep network. We wanted to see which works better on the same data, and what each one relies on.",
+    goal: "Classify 7 emotions in the TESS dataset with an SVM baseline and a CNN-LSTM, then explain both with SHAP.",
+    steps: [
+      { text: "Extract MFCC, Chroma and Mel-spectrogram features from 2,800 clips", tag: "3 features" },
+      { text: "Add noisy, stretched and pitch-shifted copies of each training clip", tag: "augmentation" },
+      { text: "Split by original file so no copy of a test clip appears in training", tag: "no leakage" },
+      { text: "Train the SVM and the CNN-LSTM, then explain them with SHAP", tag: "SHAP" },
+    ],
+    headline: "98.1%",
+    headlineNote: "CNN-LSTM accuracy on 700 unseen clips (SVM: 96.3%).",
+    result:
+      "Most mistakes mixed up disgust and pleasant surprise, which have similar spectra. MFCC features had the most influence in both models. TESS has only two speakers, so these scores do not show how the models would do on new voices.",
+    contribution: ["Extracted the MFCC features", "Built and compared the models together with the team"],
+    tools: ["Python", "librosa", "TensorFlow", "Keras", "scikit-learn", "SHAP"],
+    cover: { image: "/images/projects/ser-spectrogram.jpg", label: "#EC4899" },
+    figure: {
+      src: "/images/projects/ser-confusion.jpg",
+      width: 1600,
+      height: 639,
+      caption: "Confusion matrices on 700 test clips. Most mistakes mix up disgust and pleasant surprise.",
+    },
+    codeUrl: "https://github.com/nanadiaa14/speech-emotion-recognition-tess",
+  },
+  {
+    id: "queue",
+    genre: "Simulation",
+    title: "Supermarket Checkout Queue Simulation",
+    course: "Modelling and Simulation",
     date: "Oct 2025",
-    headline: "91.96%",
-    headlineNote: "nucleotide similarity between the two alleles.",
+    team: "Team of 5",
+    why: "Checkout lines decide how comfortable and efficient a supermarket feels — long queues lower customer satisfaction.",
+    goal: "Model the checkout area of a supermarket with 5 cashiers and test changes that could shorten waiting time.",
     steps: [
-      { text: "Align the alleles globally with Needleman–Wunsch", tag: "N–W" },
-      { text: "Measure nucleotide similarity between ε3 and ε4", tag: "91.96%" },
-      { text: "Pinpoint the critical SNP at position 388", tag: "TGC → CGC" },
-      { text: "Trace it to the Cys112Arg substitution", tag: "Cys112Arg" },
+      { text: "Record arrival, service-start and service-end times of 161 customers over 92 minutes", tag: "field data" },
+      { text: "Describe waiting and service times with frequency distributions", tag: "statistics" },
+      { text: "Model the system as M/M/5 and simulate it in SimPy", tag: "M/M/5" },
+      { text: "Test 4 or 6 cashiers, a rush hour and one shared queue", tag: "4 scenarios" },
     ],
-    tools: ["Python", "Biopython", "matplotlib"],
-    cover: { bg: "#2E2129", ink: "#F9A8D4", label: "#F9A8D4", wave: "dna" },
+    headline: "11.7 min",
+    headlineNote: "average wait per customer measured on site, against 1.9 min of actual service.",
+    result:
+      "In the simulation, one shared queue for all cashiers gave the shortest waits. The simulated waits were much shorter than the observed ones, and that gap has not been analysed yet.",
+    contribution: ["Field observation and data collection", "Statistical analysis of waiting and service times", "Report writing"],
+    tools: ["Python", "SimPy", "pandas", "matplotlib"],
+    cover: { image: "/images/projects/queue-sim.jpg", label: "#7DD3FC" },
+    figure: {
+      src: "/images/projects/queue-animation.jpg",
+      width: 1380,
+      height: 367,
+      caption: "A frame from the simulation animation: each cashier with its own line.",
+    },
+    codeUrl: "https://github.com/nanadiaa14/supermarket_queue_simulation_analysis",
   },
   {
-    id: "road",
+    id: "traffic",
     genre: "Vision",
-    title: "Road Sign Detection",
-    course: "Intelligent Transport System",
+    title: "Indonesian Traffic Sign Recognition",
+    course: "Intelligent Transportation Systems",
     date: "Sep 2025",
-    headline: "YOLO",
-    headlineNote: "object detection for road signs.",
+    team: "Solo project",
+    why: "Many road accidents involve drivers missing warning or prohibition signs. Driver-assistance systems need to read signs automatically, fast enough to run inside a car.",
+    goal: "Detect and classify 5 common Indonesian traffic signs in real time.",
     steps: [
-      { text: "Manage and annotate the dataset in Roboflow", tag: "[n images]" },
-      { text: "Train a YOLO-based detector on road signs", tag: "YOLO" },
-      { text: "Evaluate detection performance", tag: "[mAP@50]" },
+      { text: "Combine Indonesian sign datasets from Roboflow Universe and re-split them", tag: "1,589 images" },
+      { text: "Fine-tune YOLOv8n for 100 epochs on a Kaggle T4 GPU", tag: "YOLOv8n" },
+      { text: "Evaluate on a held-out test set of 68 images", tag: "test set" },
+      { text: "Measure processing time per frame", tag: "speed" },
     ],
-    tools: ["YOLO", "Roboflow"],
-    cover: { bg: "#FCD34D", ink: "#231920", label: "#231920", wave: "sign" },
+    headline: "99.5%",
+    headlineNote: "mAP@50 on the test set, at 9.6 ms per frame (about 104 FPS).",
+    result:
+      "Precision 99.3%, recall 98.8% and mAP@50-95 73.3%. The test set is small and the model has only been tested on still images; voice alerts for drivers are planned but not built yet.",
+    contribution: ["Solo project: dataset preparation, training and evaluation"],
+    tools: ["Python", "YOLOv8", "PyTorch", "Roboflow", "Kaggle"],
+    cover: { image: "/images/projects/traffic-sign.jpg", label: "#FCD34D" },
+    figure: {
+      src: "/images/projects/traffic-sign-curves.jpg",
+      width: 1600,
+      height: 800,
+      caption: "Training and validation loss, precision, recall and mAP over 100 epochs.",
+    },
+    codeUrl: "https://github.com/nanadiaa14/indonesian-traffic-sign-recognition-yolov8",
   },
   {
     id: "crime",
-    genre: "Data",
-    title: "Spatial Analysis of Crime-Prone Areas in South Sulawesi",
-    course: "Data Mining · GEMASTIK XVII",
+    genre: "NLP · Map",
+    title: "Mapping Crime-Prone Areas in South Sulawesi",
+    course: "GEMASTIK XVII",
     date: "Feb – Jun 2024",
-    headline: "Team lead",
-    headlineNote: "NLP + spatial analysis built from online news.",
+    team: "Team of 3 · team lead",
+    why: "South Sulawesi had the 6th-highest number of crime cases in Indonesia in 2022. Patrols mostly rely on past case reports, while people report crimes faster on online and social media.",
+    goal: "Classify crime news by type, location and time of day, then map which areas of South Sulawesi are crime-prone.",
     steps: [
-      { text: "Lead the team", tag: "lead" },
-      { text: "Web-crawl news articles from multiple online media", tag: "crawl" },
-      { text: "Pre-process the text and build a CNN classifier", tag: "CNN" },
-      { text: "Map crime reports across South Sulawesi", tag: "map" },
+      { text: "Crawl crime posts from Tribun Timur, Fajar, Instagram and X (Mar 2019 – Feb 2024)", tag: "1,303 posts" },
+      { text: "Label crime type, district and time of day in Label Studio", tag: "7 crime types" },
+      { text: "Train text CNNs across 25 filter and dropout settings", tag: "CNN" },
+      { text: "Geocode the districts and map crime-prone areas in ArcGIS", tag: "map" },
     ],
-    tools: ["CNN", "Web crawling", "Spatial analysis"],
-    cover: { bg: "#FBCFE8", ink: "#231920", label: "#BE185D", wave: "map" },
+    headline: "0.89",
+    headlineNote: "best F1 for both crime type and location (time of day: 0.58).",
+    result:
+      "One model per label worked much better than one model for all labels (F1 0.58). Time of day stayed hard because only 262 posts mentioned it.",
+    contribution: [
+      "Led the team",
+      "Crawled the news and social-media data",
+      "Built and tuned the CNN models",
+      "Labelled the data and wrote the report together with the team",
+    ],
+    tools: ["Python", "Keras", "Sastrawi", "BeautifulSoup", "Label Studio"],
+    cover: { image: "/images/projects/crime-map.jpg", label: "#BE185D" },
+    figure: {
+      src: "/images/projects/crime-map-full.jpg",
+      width: 693,
+      height: 473,
+      caption: "Districts that appear most often in crime news (red = crime-prone, above the 75th percentile).",
+    },
+    codeUrl: "https://github.com/nanadiaa14/cnn-online-news-text-classification",
+    caseStudyUrl:
+      "https://github.com/nanadiaa14/cnn-online-news-text-classification/blob/main/Technical%20Report_Analisis%20Spasial%20Daerah%20Rawan%20Kejahatan%20di%20Sulawesi%20Selatan%20Berdasarkan%20Data%20Media%20Online.pdf",
   },
 ];
 
@@ -312,11 +433,12 @@ export const about = {
 /* ---------- Skills ---------- */
 
 export const skills: Skill[] = [
-    { name: "Python", use: "main language", projects: ["ser", "hate", "eeg", "apoe"] },
-    { name: "Kaggle", use: "datasets & notebooks", projects: [] },
+    { name: "Python", use: "main language", projects: ["eeg", "datasci", "ser", "queue", "traffic", "crime"] },
+    { name: "Kaggle", use: "datasets & notebooks", projects: ["datasci", "traffic"] },
     { name: "Google Colab", use: "notebooks & GPU", projects: [] },
     { name: "GitHub", use: "version control", projects: [] },
-    { name: "Roboflow", use: "data annotation", projects: ["road"] },
+    { name: "Roboflow", use: "data annotation", projects: ["traffic"] },
+    { name: "MATLAB", use: "image processing", projects: ["dehaze"] },
     { name: "Laravel", use: "backend framework", projects: [], usedAt: "BRIDA Makassar internship" },
     { name: "PHP", use: "backend language", projects: [], usedAt: "BRIDA Makassar internship (Laravel backend)" },
     { name: "HTML", use: "web structure", projects: [] },
